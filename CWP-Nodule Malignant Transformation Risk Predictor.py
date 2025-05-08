@@ -24,14 +24,49 @@ st.title("CWP-Nodule Malignant Transformation Risk Predictor")
 model = joblib.load('rf.pkl')
 
 feature_ranges = {
-    "MinCT": {"type": "numerical", "min": -1000.0, "max": 100.0, "default": -912.0, "unit": "HU"},
-    "Weight": {"type": "numerical", "min": 0.0, "max": 3000.0, "default": 653.3, "unit": "mg"},
-    "V": {"type": "numerical", "min": 0.1, "max": 5000.0, "default": 1.87, "unit": "mm³"},
-    "AD": {"type": "numerical", "min": 0.1, "max": 60.0, "default": 17.3, "unit": "mm"},
-    "Age": {"type": "numerical", "min": 20, "max": 100, "default": 74, "unit": "years"},
-    "MaxCA": {"type": "numerical", "min": 0.1, "max": 1000.0, "default": 80.0, "unit": "mm²"}
+    "V": {
+        "type": "numerical",
+        "min": 0.1,
+        "max": 5000.0,
+        "default": 1.87,
+        "unit": "mm³"
+    },
+    "AD": {
+        "type": "numerical",
+        "min": 0.1,
+        "max": 60.0,
+        "default": 17.3,
+        "unit": "mm"
+    },
+    "Weight": {
+        "type": "numerical",
+        "min": 0.0,
+        "max": 3000.0,
+        "default": 653.3,
+        "unit": "mg"
+    },
+    "MinCT": {
+        "type": "numerical",
+        "min": -1000.0,
+        "max": 100.0,
+        "default": -912.0,
+        "unit": "HU"
+    },
+    "Age": {
+        "type": "numerical",
+        "min": 20,
+        "max": 100,
+        "default": 74,
+        "unit": "years"
+    },
+    "MaxCA": {
+        "type": "numerical",
+        "min": 0.1,
+        "max": 1000.0,
+        "default": 80.0,
+        "unit": "mm²"
+    }
 }
-
 st.markdown("### 🧪 Please input the patient's clinical features:")
 feature_values = []
 cols = st.columns(2)
