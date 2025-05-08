@@ -63,7 +63,7 @@ feature_ranges = {
         "type": "numerical",
         "min": 0.1,
         "max": 1000.0,
-        "default": 80.0,
+        "default": 332.56,
         "unit": "mm²"
     }
 }
