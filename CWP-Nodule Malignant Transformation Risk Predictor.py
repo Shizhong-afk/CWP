@@ -98,32 +98,18 @@ if st.button("🔍 Predict Risk"):
 
     st.markdown("### 🧠 SHAP Feature Contribution")
 
-   # 构造 SHAP 解释器
-explainer = shap.TreeExplainer(model)
-shap_raw = explainer.shap_values(df_input)
+    # 计算 SHAP 值
+    explainer = shap.TreeExplainer(model)
+    shap_values = explainer.shap_values(pd.DataFrame([feature_values], columns=feature_ranges.keys()))
 
-# 兼容多分类 vs 二分类 vs 单一输出结构
-if isinstance(shap_raw, list):
-    # 多类或二分类（shap_values 是 list of arrays）
-    if predicted_class < len(shap_raw):
-        shap_values = shap_raw[predicted_class]
-        expected_value = explainer.expected_value[predicted_class] if isinstance(explainer.expected_value, list) else explainer.expected_value
-    else:
-        shap_values = shap_raw[0]
-        expected_value = explainer.expected_value[0] if isinstance(explainer.expected_value, list) else explainer.expected_value
-else:
-    # 单类（直接是一个数组）
-    shap_values = shap_raw
-    expected_value = explainer.expected_value
-
-# 生成 force plot 图像
-shap.initjs()
-shap.force_plot(
-    expected_value,
-    shap_values,
-    df_input,
-    matplotlib=True
-)
-
-plt.savefig("shap_force_plot.png", bbox_inches='tight', dpi=1200)
-st.image("shap_force_plot.png")
+    # 生成 SHAP 力图
+    class_index = predicted_class  # 当前预测类别
+    shap_fig = shap.force_plot(
+        explainer.expected_value[class_index],
+        shap_values[:,:,class_index],
+        pd.DataFrame([feature_values], columns=feature_ranges.keys()),
+        matplotlib=True,
+    )
+    # 保存并显示 SHAP 图
+    plt.savefig("shap_force_plot.png", bbox_inches='tight', dpi=1200)
+    st.image("shap_force_plot.png")
